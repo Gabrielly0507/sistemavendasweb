@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - Sistema de Vendas</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+
+    <aside class="menu">
+        <h2>Sistema de Vendas</h2>
+
+        <nav>
+            <a th:href="@{/}">Painel inicial</a>
+            <a th:href="@{/produtos}">Produtos</a>
+            <a th:href="@{/venda}">Nova venda</a>
+            <a th:href="@{/historico}">Histórico</a>
+        </nav>
+    </aside>
+
+    <main class="conteudo">
+        <h1>Histórico de vendas</h1>
+        <p>Consulte as vendas registradas no sistema.</p>
+
+        <section class="painel">
+            <h2>Vendas realizadas</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Data e hora</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="venda : ${vendas}">
+                        <td th:text="${venda.codigo}"></td>
+                        <td th:text="${#temporals.format(venda.data, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(venda.total, 1, 2)}"></td>
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(vendas)}">
+                        <td colspan="3">Nenhuma venda cadastrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+</html>

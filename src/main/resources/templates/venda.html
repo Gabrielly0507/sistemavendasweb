@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova venda - Sistema de Vendas</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+
+    <aside class="menu">
+        <h2>Sistema de Vendas</h2>
+
+        <nav>
+            <a th:href="@{/}">Painel inicial</a>
+            <a th:href="@{/produtos}">Produtos</a>
+            <a th:href="@{/venda}">Nova venda</a>
+            <a th:href="@{/historico}">Histórico</a>
+        </nav>
+    </aside>
+
+    <main class="conteudo">
+        <h1>Nova venda</h1>
+        <p>Selecione um produto e informe a quantidade.</p>
+
+        <section class="painel">
+            <h2>Registrar venda</h2>
+
+            <p th:if="${sucesso}" th:text="${sucesso}"></p>
+            <p th:if="${erro}" th:text="${erro}"></p>
+
+            <form th:action="@{/venda/finalizar}" method="post">
+
+                <label for="codigoProduto">Produto:</label>
+                <select id="codigoProduto" name="codigoProduto" required>
+                    <option value="">Selecione um produto</option>
+                    <option th:each="produto : ${produtos}"
+                            th:value="${produto.codigo}"
+                            th:text="${produto.nome + ' - R$ ' + #numbers.formatDecimal(produto.preco, 1, 2) + ' (Estoque: ' + produto.estoque + ')'}">
+                    </option>
+                </select>
+
+                <label for="quantidade">Quantidade:</label>
+                <input type="number" id="quantidade" name="quantidade"
+                       min="1" step="1" value="1" required>
+
+                <button type="submit">Finalizar venda</button>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>
